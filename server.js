@@ -10,6 +10,42 @@ app.get('/', (request, response) => {
   response.send('Pallete Picker is running');
 });
 
+app.get('/', (request, response) => {
+  response.send('Pallete Picker is running');
+});
+
+app.get('/', (request, response) => {
+  response.send('Pallete Picker is running');
+});
+
+app.get('/', (request, response) => {
+  response.send('Pallete Picker is running');
+});
+
+app.post('/', (request, response) => {
+  response.send('Pallete Picker is running');
+});
+
+app.post('/', (request, response) => {
+  response.send('Pallete Picker is running');
+});
+
+app.patch('/', (request, response) => {
+  response.send('Pallete Picker is running');
+});
+
+app.patch('/', (request, response) => {
+  response.send('Pallete Picker is running');
+});
+
+app.delete('/', (request, response) => {
+  response.send('Pallete Picker is running');
+});
+
+app.delete('/', (request, response) => {
+  response.send('Pallete Picker is running');
+});
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on http://localhost:${app.get('port')}.`);
 });
