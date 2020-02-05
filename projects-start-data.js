@@ -32,7 +32,12 @@ module.exports = [
       color3: "#F8DF3A",
       color4: "#B3C0F7",
       color5: "#000000"
-    }
-  ]
+      }
+    ]
+  },
+  {
+    name: 'Living room',
+    current: false,
+    palettes: []
   }
 ];
