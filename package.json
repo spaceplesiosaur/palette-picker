@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon --exec babel-node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/spaceplesiosaur/palette-picker.git",
-    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
