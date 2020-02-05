@@ -10,8 +10,13 @@ app.locals.title = 'Pallete Picker';
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/v1/palettes', (request, response) => {
-  response.send('Pallete Picker is running');
+app.get('/api/v1/palettes', async (request, response) => {
+  try {
+    const palletes = await database('palletes').select();
+    response.status(200).send(palletes)
+  } catch(error) {
+    response.status(500).send({ error })
+  }
 });
 
 app.get('/api/v1/projects', (request, response) => {
@@ -57,3 +62,5 @@ app.get('/', (request, response) => {
 app.get('*', (request, response) => {
   response.status(404).send('Pallete Not Found');
 });
+
+export default app;
