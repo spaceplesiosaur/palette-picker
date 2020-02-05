@@ -13,6 +13,11 @@ app.use(express.json());
 app.get('/api/v1/palettes', async (request, response) => {
   try {
     const palletes = await database('palettes').select();
+
+    if(!palletes.length) {
+      response.status(404).json({error: 'Unable to find palletes'})
+    }
+
     response.status(200).send(palletes)
   } catch(error) {
     response.status(500).send({ error })
@@ -25,7 +30,8 @@ app.get('/api/v1/projects', (request, response) => {
 
 app.get('/api/v1/palettes/:id', async (request, response) => {
   try {
-    const pallete = await database('palletes').where('id', request.params.id);
+    const pallete = await database('palettes').where({id: request.params.id });
+
     pallete.length ? response.status(200).send(pallete) : response.status(404).send({ error:'Pallete not found'});
   } catch(error) {
     response.status(500).send({ error })
