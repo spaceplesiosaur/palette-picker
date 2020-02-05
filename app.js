@@ -6,6 +6,7 @@ const database = require('knex')(configuration);
 
 const app = express();
 
+//test
 app.locals.title = 'Pallete Picker';
 app.use(cors());
 app.use(express.json());
