@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watchAll"
   },
   "repository": {
     "type": "git",
@@ -19,10 +19,14 @@
   },
   "homepage": "https://github.com/spaceplesiosaur/palette-picker#readme",
   "dependencies": {
+    "@babel/polyfill": "^7.8.3",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^25.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "knex": "^0.20.8",
-    "pg": "^7.18.1"
+    "pg": "^7.18.1",
+    "supertest": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
