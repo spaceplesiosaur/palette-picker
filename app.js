@@ -57,10 +57,13 @@ app.post('/api/v1/projects', (request, response) => {
 app.patch('/api/v1/palettes/:id', async (request, response) => {
   const { id } = request.params;
   const { name } = request.body;
-  const pallete = await database('palletes').find((pallete) => pallete.id == id);
-
-  pallete.name = name;
- !pallete.name ? response.sendStatus(404) : response.status(200).json(pallete);
+  try {
+    const pallete = await database('palletes').find((pallete) => pallete.id == id);
+    pallete.name = name;
+    !pallete.name ? response.sendStatus(404) : response.status(200).json(pallete);
+  } catch(error) {
+    response.status(500).json({ error });
+  }
 });
 
 app.patch('/api/v1/projects/:id', (request, response) => {
@@ -73,7 +76,7 @@ app.delete('/api/v1/palettes/:id', async (request, response) => {
     pallete.length ? response.status(404).json({error: `Could not find pallete with id ${request.params.id}`}) : response.status(200).json(pallete);
     } catch(error) {
     response.status(500).json({ error });
-}
+  }
 });
 
 app.delete('/api/v1/projects/:id', (request, response) => {
