@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.get('/api/v1/palettes', async (request, response) => {
   try {
-    const palletes = await database('palletes').select();
+    const palletes = await database('palettes').select();
     response.status(200).send(palletes)
   } catch(error) {
     response.status(500).send({ error })
