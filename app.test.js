@@ -30,4 +30,5 @@ describe('GET /api/v1/palettes', () => {
       expect(palletes).toEqual(expectedPalettes);
       
     })
+
 });
