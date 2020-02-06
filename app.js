@@ -6,7 +6,6 @@ const database = require('knex')(configuration);
 
 const app = express();
 
-//test
 app.locals.title = 'Pallete Picker';
 app.use(cors());
 app.use(express.json());
@@ -99,11 +98,8 @@ app.post('/api/v1/projects', async (request, response) => {
 app.patch('/api/v1/palettes/:id', async (request, response) => {
   const { id } = request.params;
   const name = request.body;
-  console.log('name', name)
   try {
     const palleteId = await database('palettes').where('id', id).update(name, 'id');
-    // pallete.name = name;
-    console.log(palleteId);
     !palleteId ? response.sendStatus(404) : response.status(200).json(palleteId);
   } catch(error) {
     response.status(500).json({ error });
