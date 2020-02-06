@@ -64,4 +64,13 @@ describe('Server', () => {
     })
   }); 
 
+  it('should return a 404 and the message "Pallete not found"', async () => {
+    const invalidId = -555;
+  
+    const response = await request(app).get(`/api/v1/palettes/${invalidId}`)
+   
+    expect(response.status).toBe(404);
+    expect(response.body.error).toEqual('Pallete not found');
+  });
+ 
 });
