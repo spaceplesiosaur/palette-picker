@@ -44,11 +44,24 @@ describe('Server', () => {
 
       })
   });
+
   describe('GET api/v1/projects/:id', () => {
     it('should return a 200 status and a single project if the project exists', async () => {
 
     })
-  })
+  }); 
 
+  describe('GET api/v1/palettes/:id', () => {
+    it('should return a 200 status and a single palette', async () => { 
+    const palette = await database('palettes').first()
+    const { id } = palette;
+    const onePalette = JSON.parse(JSON.stringify(palette))
+    const response = await request(app).get(`/api/v1/palettes/${id}`)
+    const result = response.body[0]
+
+    expect(response.status).toBe(200)
+    expect(result).toEqual(onePalette)
+    })
+  }); 
 
 });
