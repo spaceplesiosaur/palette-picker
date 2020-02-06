@@ -40,7 +40,6 @@ app.get('/api/v1/projects', async (request, response) => {
 app.get('/api/v1/palettes/:id', async (request, response) => {
   try {
     const pallete = await database('palettes').where({id: request.params.id });
-
     pallete.length ? response.status(200).send(pallete) : response.status(404).send({ error:'Pallete not found'});
   } catch(error) {
     response.status(500).send({ error })
@@ -113,7 +112,7 @@ app.patch('/api/v1/projects/:id', async (request, response) => {
   const newStatus = request.body
   const { id } = request.params
   const chosenProject = await database('projects').where('id', id)
-  
+
   if(!chosenProject.length) {
     response.status(422).json({error: 'Unable to find that project'})
   }
@@ -144,8 +143,21 @@ app.delete('/api/v1/projects/:id', async (request, response) => {
   }
 
   try {
-    await database('projects').where('id', id).del();
-    response.status(204)
+    // if (await database('palettes').where('project_id', id).select().length) {
+    //   const deletePromises = await database('palettes').where('project_id', id).del();
+    //   Promise.all(deletePromises)
+    // }
+
+    await database('palettes').where('project_id', id).del();
+
+
+    try {
+      await database('projects').where('id', id).del();
+      response.status(204)
+    } catch(error) {
+      response.status(500).json({ error });
+    }
+
   } catch (error) {
     response.status(500).json({ error });
   }
