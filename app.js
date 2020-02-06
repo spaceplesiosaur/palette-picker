@@ -40,7 +40,6 @@ app.get('/api/v1/projects', async (request, response) => {
 app.get('/api/v1/palettes/:id', async (request, response) => {
   try {
     const pallete = await database('palettes').where({id: request.params.id });
-
     pallete.length ? response.status(200).send(pallete) : response.status(404).send({ error:'Pallete not found'});
   } catch(error) {
     response.status(500).send({ error })
@@ -52,7 +51,7 @@ app.get('/api/v1/projects/:id', async (request, response) => {
     const { id } = request.params
     const chosenProject = await database('projects').where('id', id)
     if(!chosenProject.length) {
-      response.status(422).json({error: 'Unable to find that project'})
+      response.status(404).json({error: 'Unable to find that project'})
     }
     response.status(200).json(chosenProject)
   } catch(error) {
@@ -113,9 +112,9 @@ app.patch('/api/v1/projects/:id', async (request, response) => {
   const newStatus = request.body
   const { id } = request.params
   const chosenProject = await database('projects').where('id', id)
-  
+
   if(!chosenProject.length) {
-    response.status(422).json({error: 'Unable to find that project'})
+    response.status(404).json({error: 'Unable to find that project'})
   }
 
   try {
@@ -139,13 +138,14 @@ app.delete('/api/v1/projects/:id', async (request, response) => {
   const { id } = request.params
   const project = await database('projects').where('id', id).select()
 
-  if(!project.length) {
+  if (!project.length) {
     return response.status(404).json({error: "unable to find that project"})
   }
 
   try {
+    await database('palettes').where('project_id', id).del();
     await database('projects').where('id', id).del();
-    response.status(204)
+    response.sendStatus(204)
   } catch (error) {
     response.status(500).json({ error });
   }
