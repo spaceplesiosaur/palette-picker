@@ -13,8 +13,8 @@ describe('Server', () => {
 
   describe('init', () => {
     it('should return a 200 status', async () => {
-      const res = await request(app).get('/')
-      expect(res.status).toBe(200)
+      const response = await request(app).get('/')
+      expect(response.status).toBe(200)
     });
   });
 
@@ -74,3 +74,18 @@ describe('Server', () => {
   });
  
 });
+
+describe('POST /api/v1/palettes', () => {
+    it('should post a new palette to the db', async () => {
+      const newPalette = { name: 'Luna Llena', color1 : '#F7EDB7', color2: '#00A8CF', color3: '#B3C0F7', color4: '#DFE9FD', color5: '#DFE9FD'};
+  
+      const response = await request(app).post('/api/v1/palettes').send(newPalette);
+  
+      const palettes = await database('palettes').where('id', response.body.id[0]);
+  
+      const palette = palettes[0];
+
+      expect(response.status).toBe(201);
+      expect(palette.name).toEqual(newPalette.name);
+    });
+  });
