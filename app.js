@@ -46,13 +46,16 @@ app.get('/api/v1/palettes/:id', async (request, response) => {
 });
 
 app.get('/api/v1/projects/:id', async (request, response) => {
+  const { id } = request.params
   try {
-    const { id } = request.params
     const chosenProject = await database('projects').where('id', id)
     if(!chosenProject.length) {
       response.status(404).json({error: 'Unable to find that project'})
+    } else {
+      response.status(200).json(chosenProject)
     }
-    response.status(200).json(chosenProject)
+
+
   } catch(error) {
     response.status(500).json({ error })
   }
@@ -117,7 +120,7 @@ app.patch('/api/v1/projects/:id', async (request, response) => {
 
   try {
     const returnID = await database('projects').where({ id: id }).update(newStatus, 'id')
-    response.status(201).json({ returnID })
+    response.status(200).json({ returnID })
   } catch (error) {
       response.status(500).json({ error });
     }
