@@ -72,7 +72,7 @@ describe('Server', () => {
       expect(response.body.error).toEqual('Pallete not found');
     });
   }); 
-
+ 
   describe('POST /api/v1/palettes', () => {
       it('should post a new palette to the db', async () => {
         const newPalette = { name: 'Luna Llena', color1 : '#F7EDB7', color2: '#00A8CF', color3: '#B3C0F7', color4: '#DFE9FD', color5: '#DFE9FD'};
@@ -89,8 +89,17 @@ describe('Server', () => {
   });
   
   describe('PATCH /api/v1/palettes/:id', () => {
-    it('should patch a palette to update info', () => {
-  
+    it('should patch a palette to update info', async () => {
+        const mockName = { name: 'Mar de Flores'};
+    
+          const palette = await database('palettes').first();
+          const id = palette.id;
+    
+          const response = await request(app).patch(`/api/v1/palettes/${id}`).send(mockName);
+          const wantedPalette = await database('palettes').where('id', id);
+    
+          expect(response.status).toBe(200);
+          expect(wantedPalette[0].name).toEqual(mockName.name);
     })
   });
   
@@ -99,6 +108,5 @@ describe('Server', () => {
   
     })
   });
- 
 });
 
