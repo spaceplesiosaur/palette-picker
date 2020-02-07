@@ -62,30 +62,43 @@ describe('Server', () => {
     expect(response.status).toBe(200)
     expect(result).toEqual(onePalette)
     })
+
+    it('should return a 404 and the message "Pallete not found"', async () => {
+      const invalidId = -555;
+    
+      const response = await request(app).get(`/api/v1/palettes/${invalidId}`)
+     
+      expect(response.status).toBe(404);
+      expect(response.body.error).toEqual('Pallete not found');
+    });
   }); 
 
-  it('should return a 404 and the message "Pallete not found"', async () => {
-    const invalidId = -555;
+  describe('POST /api/v1/palettes', () => {
+      it('should post a new palette to the db', async () => {
+        const newPalette = { name: 'Luna Llena', color1 : '#F7EDB7', color2: '#00A8CF', color3: '#B3C0F7', color4: '#DFE9FD', color5: '#DFE9FD'};
+    
+        const response = await request(app).post('/api/v1/palettes').send(newPalette);
+    
+        const palettes = await database('palettes').where('id', response.body.id[0]);
+    
+        const palette = palettes[0];
   
-    const response = await request(app).get(`/api/v1/palettes/${invalidId}`)
-   
-    expect(response.status).toBe(404);
-    expect(response.body.error).toEqual('Pallete not found');
+        expect(response.status).toBe(201);
+        expect(palette.name).toEqual(newPalette.name);
+      });
+  });
+  
+  describe('PATCH /api/v1/palettes/:id', () => {
+    it('should patch a palette to update info', () => {
+  
+    })
+  });
+  
+  describe('DELETE /api/v1/palettes/:id', () => {
+    it('should delete palette with id', () => {
+  
+    })
   });
  
 });
 
-describe('POST /api/v1/palettes', () => {
-    it('should post a new palette to the db', async () => {
-      const newPalette = { name: 'Luna Llena', color1 : '#F7EDB7', color2: '#00A8CF', color3: '#B3C0F7', color4: '#DFE9FD', color5: '#DFE9FD'};
-  
-      const response = await request(app).post('/api/v1/palettes').send(newPalette);
-  
-      const palettes = await database('palettes').where('id', response.body.id[0]);
-  
-      const palette = palettes[0];
-
-      expect(response.status).toBe(201);
-      expect(palette.name).toEqual(newPalette.name);
-    });
-  });
