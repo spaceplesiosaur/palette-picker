@@ -100,8 +100,13 @@ describe('Server', () => {
   });
   
   describe('DELETE /api/v1/palettes/:id', () => {
-    it('should delete palette with id', () => {
+    it('should delete palette with id', async () => {
+        const palette = await database('palettes').first();
+        const id = palette.id;
+        const response = await request(app).delete(`/api/v1/palettes/${id}`);
   
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual(1); 
     })
   });
 });
