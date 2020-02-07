@@ -89,6 +89,7 @@ describe('Server', () => {
     it('should patch a palette to update info', async () => {
           const mockName = { name: 'Mar de Flores'};
           const palette = await database('palettes').first();
+          expect(palette.name).toEqual('Ocean');
           const id = palette.id;
     
           const response = await request(app).patch(`/api/v1/palettes/${id}`).send(mockName);
