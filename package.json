@@ -21,7 +21,10 @@
   "homepage": "https://github.com/spaceplesiosaur/palette-picker#readme",
   "dependencies": {
     "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
     "@babel/polyfill": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
     "babel-core": "^6.26.3",
     "babel-jest": "^25.1.0",
     "cors": "^2.8.5",
@@ -32,9 +35,5 @@
     "pg": "^7.18.1",
     "supertest": "^4.0.2"
   },
-  "devDependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/node": "^7.8.4",
-    "@babel/preset-env": "^7.8.4"
-  }
+  "devDependencies": {}
 }
