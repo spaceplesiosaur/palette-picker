@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node server.js",
+    "start:prod": "babel-node server.js",
     "test": "NODE_ENV=test jest --watchAll"
   },
   "repository": {
