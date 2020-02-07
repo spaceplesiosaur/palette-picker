@@ -122,7 +122,7 @@ app.patch('/api/v1/projects/:id', async (request, response) => {
 
   try {
     const returnID = await database('projects').where({ id: id }).update(newStatus, 'id')
-    response.status(201).json({ returnID })
+    response.status(200).json({ returnID })
   } catch (error) {
       response.status(500).json({ error });
     }

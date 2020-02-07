@@ -94,8 +94,19 @@ describe('Server', () => {
   });
 
   describe('PATCH /api/v1/projects/:id', () => {
-    it('should change the status of current and return a status code of 200', () => {
-      return null
+    it('should change the status of current and return a status code of 200', async () => {
+
+      let expectedProject = await database('projects').first()
+      console.log('expected Pro', expectedProject)
+      const { id } = expectedProject
+      expect(expectedProject.current).toEqual(true)
+
+      const newStatus = {current: false}
+      const response = await request(app).patch(`/api/v1/projects/${id}`).send(newStatus)
+      expectedProject = await database('projects').first()
+
+      expect(response.status).toBe(200);
+      expect(expectedProject.current).toBe(false)
     })
   })
 
