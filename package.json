@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/spaceplesiosaur/palette-picker#readme",
   "dependencies": {
+    "@babel/cli": "^7.8.4",
     "@babel/polyfill": "^7.8.3",
     "babel-core": "^6.26.3",
     "babel-jest": "^25.1.0",
