@@ -97,7 +97,6 @@ describe('Server', () => {
     it('should change the status of current and return a status code of 200', async () => {
 
       let expectedProject = await database('projects').first()
-      console.log('expected Pro', expectedProject)
       const { id } = expectedProject
       expect(expectedProject.current).toEqual(true)
 
@@ -108,8 +107,38 @@ describe('Server', () => {
       expect(response.status).toBe(200);
       expect(expectedProject.current).toBe(false)
     })
+
+    it('should return a 404 when a requested projects ID does not exist', async () => {
+      const wrongId = -4;
+
+      const response = await request(app).get(`/api/v1/projects/${wrongId}`);
+
+      expect(response.status).toBe(404);
+      expect(response.body.error).toEqual('Unable to find that project');
+    })
   })
 
+  describe('DELETE /api/v1/projects/:id', () => {
+    it('should delete palette with id', async () => {
+        const project = await database('projects').first();
+        const id = project.id;
+        const projects1 = await database('projects').select();
+        const projectsLength1 = projects1.length
 
+        const response = await request(app).delete(`/api/v1/projects/${id}`);
+        const projects2 = await database('projects').select();
+        const projectsLength2 = projects2.length
 
+        expect(response.status).toBe(204);
+        expect(projectsLength2).toEqual(projectsLength1 - 1)
+    });
+    it('should return a 404 when a requested projects ID does not exist', async () => {
+      const wrongId = -5;
+
+      const response = await request(app).get(`/api/v1/projects/${wrongId}`);
+
+      expect(response.status).toBe(404);
+      expect(response.body.error).toEqual('Unable to find that project');
+    })
+  });
 });
