@@ -24,13 +24,31 @@ app.get('/api/v1/palettes', async (request, response) => {
   }
 });
 
-app.get('/api/v1/projects', async (request, response) => {
+// const checkForQueries = async (req, res, next) => {
+//   if (req.query.current) {
+//     const current = JSON.parse(req.query.current.toLowerCase());
+//     const projectList = await database('projects').where('current', current).select()
+//     return projectList
+//   }
+// }
+app.get('/api/v1/projects?', async (request, response) => {
   try {
-    const projectList = await database('projects').select()
-    if(!projectList.length) {
-      response.status(404).json({error: 'Unable to find that list'})
+    if (request.query.current) {
+      const current = request.query.current;
+      console.log('CURRENT', current)
+      const currentList = await database('projects').where('current', current).select()
+        if(!currentList.length) {
+          response.status(404).json({error: 'Unable to find that list'})
+        }
+      response.status(200).json(currentList)
+    } else {
+      const projectList = await database('projects').select()
+        if(!projectList.length) {
+          response.status(404).json({error: 'Unable to find that list'})
+        }
+      response.status(200).json(projectList)
     }
-    response.status(200).json(projectList)
+
   } catch(error) {
     response.status(500).json({ error })
   }
@@ -60,6 +78,23 @@ app.get('/api/v1/projects/:id', async (request, response) => {
     response.status(500).json({ error })
   }
 });
+
+// app.get('/api/v1/projects?current=true', async (request, response) => {
+//
+//   try {
+//     const currentProjects = await database('projects').where('current', true).select()
+//
+//     if(!currentProjects.length) {
+//       response.status(404).json({error: 'No current projects'})
+//     } else {
+//       response.status(200).json(currentProjects)
+//     }
+//
+//
+//   } catch(error) {
+//     response.status(500).json({ error })
+//   }
+// });
 
 app.post('/api/v1/palettes', async (request, response) => {
   const pallete = request.body;
