@@ -120,92 +120,97 @@ describe('Server', () => {
   });
 
 
- //  describe('DELETE /api/v1/projects/:id', () => {
- //    it('should delete palette with id', async () => {
- //
- //        // const projects1 = await database('projects').select();
- //        const projectsLength1 = projects1.length
- //        const project = await database('projects').first();
- //        console.log(project);
- //        const id = project.id;
- //        const response = await request(app).delete(`/api/v1/projects/${id}`);
- //
- //        expect(response.status).toBe(204);
- //
- //        const projects2 = await database('projects').select();
- //        const projectsLength2 = projects2.length
- //
- //
- //        expect(projectsLength2).toEqual(projectsLength1 - 1)
- //    });
- //
- //    it('should return a 404 when a requested projects ID does not exist', async () => {
- //      const wrongId = -5;
- //
- //      const response = await request(app).get(`/api/v1/projects/${wrongId}`);
- //
- //      expect(response.status).toBe(404);
- //      expect(response.body.error).toEqual('Unable to find that project');
- //    });
- // });
+  describe('DELETE /api/v1/projects/:id', () => {
+    it('should delete project with id', async () => {
 
-  // describe('GET api/v1/palettes/:id', () => {
-  //   it('should return a 200 status and a single palette', async () => {
-  //       const palette = await database('palettes').first();
-  //       const { id } = palette;
-  //       const onePalette = JSON.parse(JSON.stringify(palette));
-  //       const response = await request(app).get(`/api/v1/palettes/${id}`);
-  //       const result = response.body[0];
-  //
-  //       expect(response.status).toBe(200);
-  //       expect(result).toEqual(onePalette);
-  //   })
-  //
-  //   it('should return a 404 and the message "Pallete not found"', async () => {
-  //     const invalidId = -555;
-  //     const response = await request(app).get(`/api/v1/palettes/${invalidId}`);
-  //
-  //     expect(response.status).toBe(404);
-  //     expect(response.body.error).toEqual('Pallete not found');
-  //   });
-  // });
+        const projects1 = await database('projects').select();
+        const projectsLength1 = projects1.length
+        const project = await database('projects').first();
+        console.log(project);
+        const id = project.id;
+        const response = await request(app).delete(`/api/v1/projects/${id}`);
 
-  // describe('POST /api/v1/palettes', () => {
-  //     it('should post a new palette to the db', async () => {
-  //
-  //       const newPalette = { name: 'Luna Llena', color1 : '#F7EDB7', color2: '#00A8CF', color3: '#B3C0F7', color4: '#DFE9FD', color5: '#DFE9FD'};
-  //       const response = await request(app).post('/api/v1/palettes').send(newPalette);
-  //       const palettes = await database('palettes').where('id', response.body.id[0]);
-  //       const palette = palettes[0];
-  //
-  //       expect(response.status).toBe(201);
-  //       expect(palette.name).toEqual(newPalette.name);
-  //     });
-  // });
+        expect(response.status).toBe(204);
 
-  // describe('PATCH /api/v1/palettes/:id', () => {
-  //   it('should patch a palette to update info', async () => {
-  //         const mockName = { name: 'Mar de Flores'};
-  //         const palette = await database('palettes').first();
-  //         expect(palette.name).toEqual('Ocean');
-  //         const id = palette.id;
-  //
-  //         const response = await request(app).patch(`/api/v1/palettes/${id}`).send(mockName);
-  //         const thePalette = await database('palettes').where('id', id);
-  //
-  //         expect(response.status).toBe(200);
-  //         expect(thePalette[0].name).toEqual(mockName.name);
-  //   })
-  // });
+        const projects2 = await database('projects').select();
+        const projectsLength2 = projects2.length
 
-//   describe('DELETE /api/v1/palettes/:id', () => {
-//     it('should delete palette with id', async () => {
-//         const palette = await database('palettes').first();
-//         const id = palette.id;
-//         const response = await request(app).delete(`/api/v1/palettes/${id}`);
-//
-//         expect(response.status).toBe(200);
-//         expect(response.body).toEqual(1);
-//     })
-//   });
+
+        expect(projectsLength2).toEqual(projectsLength1 - 1)
+    });
+
+    it('should return a 404 when a requested projects ID does not exist', async () => {
+      const wrongId = -5;
+
+      const response = await request(app).get(`/api/v1/projects/${wrongId}`);
+
+      expect(response.status).toBe(404);
+      expect(response.body.error).toEqual('Unable to find that project');
+    });
+ });
+
+  describe('GET api/v1/palettes/:id', () => {
+    it('should return a 200 status and a single palette', async () => {
+        const palette = await database('palettes').first();
+        const { id } = palette;
+        const onePalette = JSON.parse(JSON.stringify(palette));
+        const response = await request(app).get(`/api/v1/palettes/${id}`);
+        const result = response.body[0];
+
+        expect(response.status).toBe(200);
+        expect(result).toEqual(onePalette);
+    })
+
+    it('should return a 404 and the message "Pallete not found"', async () => {
+      const invalidId = -555;
+      const response = await request(app).get(`/api/v1/palettes/${invalidId}`);
+
+      expect(response.status).toBe(404);
+      expect(response.body.error).toEqual('Pallete not found');
+    });
+  });
+
+  describe('POST /api/v1/palettes', () => {
+      it('should post a new palette to the db', async () => {
+        const projectForID = await database('projects').first()
+        const projectID = projectForID.id
+
+        const newPalette = { project_id: projectID, name: 'Luna Llena', color1 : '#F7EDB7', color2: '#00A8CF', color3: '#B3C0F7', color4: '#DFE9FD', color5: '#DFE9FD'};
+        const response = await request(app).post('/api/v1/palettes').send(newPalette);
+
+        const palettes = await database('palettes').where('id', response.body.id[0]);
+        const palette = palettes[0];
+
+        expect(response.status).toBe(201);
+        expect(palette.name).toEqual(newPalette.name);
+      });
+  });
+
+  describe('PATCH /api/v1/palettes/:id', () => {
+    it('should patch a palette to update info', async () => {
+          const mockName = { name: 'Mar de Flores'};
+          const palette = await database('palettes').first();
+          const id = palette.id;
+          const thePalette1 = await database('palettes').where('id', id);
+          expect(palette.name).toEqual(thePalette1[0].name);
+
+
+          const response = await request(app).patch(`/api/v1/palettes/${id}`).send(mockName);
+          const thePalette2 = await database('palettes').where('id', id);
+
+          expect(response.status).toBe(200);
+          expect(thePalette2[0].name).toEqual(mockName.name);
+    })
+  });
+
+  describe('DELETE /api/v1/palettes/:id', () => {
+    it('should delete palette with id', async () => {
+        const palette = await database('palettes').first();
+        const id = palette.id;
+        const response = await request(app).delete(`/api/v1/palettes/${id}`);
+  
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual(1);
+    })
+  });
 });
