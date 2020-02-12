@@ -98,9 +98,9 @@ app.get('/api/v1/projects/:id', async (request, response) => {
 
 app.post('/api/v1/palettes', async (request, response) => {
   const pallete = request.body;
-  for (let palleteInfo of ['name', 'color1', 'color2', 'color3', 'color4', 'color5']) {
+  for (let palleteInfo of ['project_id', 'name', 'color1', 'color2', 'color3', 'color4', 'color5']) {
     !pallete[palleteInfo] ?
-    response.status(422).send({ error: `Expected format: { name: <String>, color1: <String>, color2: <String>, color3: <String>, color4: <String>, color5: <String>}. You're missing a "${palleteInfo}" property.` }) : '';
+    response.status(422).send({ error: `Expected format: { project_id: <Integer>, name: <String>, color1: <String>, color2: <String>, color3: <String>, color4: <String>, color5: <String>}. You're missing a "${palleteInfo}" property.` }) : '';
   }
 
   try {
