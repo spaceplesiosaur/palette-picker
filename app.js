@@ -150,7 +150,7 @@ app.patch('/api/v1/projects/:id', async (request, response) => {
   const chosenProject = await database('projects').where('id', id)
 
   if(!chosenProject.length) {
-    response.status(404).json({error: 'Unable to find that project'})
+    return response.status(404).json({error: 'Unable to find that project'})
   }
 
   try {
