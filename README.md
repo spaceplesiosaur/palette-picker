@@ -65,6 +65,28 @@ Example reply:
           }
         ]
 
+#### GET all current projects
+
+The endpoint is set up so that it will automatically look for a query string on your URL.
+
+Endpoint:
+
+`https://palette-picker-ac.herokuapp.com/api/v1/projects?current=true`
+
+Example reply:
+
+        [
+          {
+            "id": 35,
+            "name": "Bathroom walls",
+            "current": true
+          },
+          {
+            "id": 35,
+            "name": "Bedroom walls",
+            "current": true
+          },
+        ]
 
 #### GET all available palettes from list
 
@@ -121,66 +143,50 @@ Endpoint:
 
 Example reply:
 
-    [
-      {
-          "id": 12,
-          "name": "bold",
-          "good": "extraversion",
-          "bad": "emotional_stability",
-          "created_at": "2020-01-30T19:57:39.652Z",
-          "updated_at": "2020-01-30T19:57:39.652Z"
-      }
-    ]
+        [
+          {
+            id: 13,
+            name: "Kid bedroom",
+            current: false
+          }
+        ]
 
 #### GET a single pokemon from list
 
 Endpoint:
 
- `/api/v1/pokemon/:id`
+ `https://palette-picker-ac.herokuapp.com/api/v1/palettes/:id`
 
 Example reply:
 
-     [
-         {
-             "id": 13,
-             "name": "seel",
-             "nature_id": 14,
-             "created_at": "2020-01-30T19:57:39.687Z",
-             "updated_at": "2020-01-30T19:57:39.687Z"
-         }
-     ]
+        [
+          {
+            id: 9,
+            name: "Sunset",
+            color1: "#FA1E88",
+            color2: "#ff6100",
+            color3: "#F8DF3A",
+            color4: "#B3C0F7",
+            color5: "#000000",
+            project_id: 13,
+            created_at: "2020-02-10T21:20:14.843Z",
+            updated_at: "2020-02-10T21:20:14.843Z"
+          }
+        ]
 
 
 ## POST
 To add data to endpoints, you will need to use post.  Make sure that your options object includes the object you are posting in the body and `application/json` in the Content-Type header.
 
-#### POST a new pokemon to the adoption list
+#### POST a new project to the list
 
 Endpoint:
 
-    `/api/v1/pokemon`
+    `https://palette-picker-ac.herokuapp.com/api/v1/projects`
 
 Request body:
 
-    `{"name": <String>, "nature_id": <Integer>}`
-
-Example response:
-
-    {
-      "id": [
-         81
-        ]
-    }
-
-#### POST a new nature to the nature list
-
-Endpoint:
-
-    `/api/v1/natures`
-
-Request body:
-
-    `{ name: <String>, good: <String>, bad: <String> }`
+    `{name: <string>}`
 
 Example response:
 
@@ -190,16 +196,61 @@ Example response:
         ]
     }
 
+#### POST a new palette list
+
+Endpoint:
+
+    `https://palette-picker-ac.herokuapp.com/api/v1/projects`
+
+Request body:
+
+    `{ project_id: <Integer>, name: <String>, color1: <String>, color2: <String>, color3: <String>, color4: <String>, color5: <String>}`
+
+Example response:
+
+    {
+      "id": [
+         13
+        ]
+    }
+
+#### PATCH a project status
+
+You can change a project's 'current' attribute from true to false.
+
+Endpoint:
+
+`https://palette-picker-ac.herokuapp.com/api/v1/projects/:id`
+
+Request body:
+
+    `{ "current": <Boolean>}`
+
+#### PATCH a palette name
+
+You can change a palette's name.
+
+Endpoint:
+
+`https://palette-picker-ac.herokuapp.com/api/v1/projects/:id`
+
+Request body:
+
+    `{ "name": <Boolean>}`
 
 ## DELETE
 
-When a pokemon has been adopted, it can be deleted from the adoption list.  It does not require a body, but you will need to query the right id.
+When a project is deleted, all palettes are deleted with it.
 
 ####
 
 Endpoint:
 
- `/api/v1/pokemon/:id`
+ `https://palette-picker-ac.herokuapp.com/api/v1/projects`
+
+ Endpoint:
+
+  `https://palette-picker-ac.herokuapp.com/api/v1/palettes`
 
 Example response:
 
